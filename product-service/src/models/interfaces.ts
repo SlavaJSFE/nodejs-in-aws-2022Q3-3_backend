@@ -5,3 +5,10 @@ export interface Product {
   price: number,
   title: string,
 };
+
+export interface ProductData {
+  count: number,
+  description: string,
+  price: number,
+  title: string,
+}

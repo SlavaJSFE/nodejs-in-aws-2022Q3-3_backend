@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
+import { getProductById } from "src/database/DynamoDB/service";
 import { formatJSONResponse } from "../../libs/api-gateway";
 import { HttpCode } from "../../utils/http.utils";
-import { getProductById } from "../../utils/service.utils";
 import { uuidValidateV4 } from "../../utils/uuid.utils";
 
 export const handler = async (event: APIGatewayProxyEvent) => {
@@ -13,11 +13,15 @@ export const handler = async (event: APIGatewayProxyEvent) => {
     return formatJSONResponse({ message: `Requested product ID is not valid` }, HttpCode.BAD_REQUEST)
   }
 
-  const product = await getProductById(productId);
+  try {
+    const product = await getProductById(productId);
 
-  if (!product) {
-    return formatJSONResponse({ message: `Product with id ${productId} was not found`}, HttpCode.NOT_FOUND)
+    if (!product) {
+      return formatJSONResponse({ message: `Product with id ${productId} was not found` }, HttpCode.NOT_FOUND)
+    }
+
+    return formatJSONResponse(product);
+  } catch (error) {
+    formatJSONResponse(error.message, error.statusCode || HttpCode.SERVER_ERROR)
   }
-
-  return formatJSONResponse(product);
 };

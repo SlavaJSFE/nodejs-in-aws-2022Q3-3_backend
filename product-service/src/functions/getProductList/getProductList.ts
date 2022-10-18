@@ -1,11 +1,16 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
+import { getProductList } from "../../database/DynamoDB/service";
+import { HttpCode } from "src/utils/http.utils";
 import { formatJSONResponse } from "../../libs/api-gateway";
-import { getProductList } from "../../utils/service.utils";
 
-export const handler = async (event: APIGatewayProxyEvent | any) => {
+export const handler = async (event: APIGatewayProxyEvent) => {
   console.log(event);
 
-  const products = await getProductList();
-
-  return formatJSONResponse(products);
+  try {
+    const productList = await getProductList();
+    
+    return formatJSONResponse(productList);
+  } catch (error) {
+    formatJSONResponse(error.message, error.statusCode || HttpCode.SERVER_ERROR)
+  }
 };
