@@ -2,11 +2,13 @@ import type { AWS } from '@serverless/typescript';
 
 import getProductList from '@functions/getProductList';
 import getProductById from '@functions/getProductById';
+import createProduct from '@functions/createProduct';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
   frameworkVersion: '3',
   plugins: ['serverless-esbuild', 'serverless-offline'],
+  useDotenv: true,
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -19,10 +21,23 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      TABLE_NAME_PRODUCTS: '${env:TABLE_NAME_PRODUCTS}',
+      TABLE_NAME_STOCKS: '${env:TABLE_NAME_STOCKS}',
+    },
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: 'dynamodb:*',
+            Resource: '*'
+          },
+        ],
+      },
     },
   },
   // import the function via paths
-  functions: { getProductList, getProductById },
+  functions: { getProductList, getProductById, createProduct },
   package: { individually: true },
   custom: {
     esbuild: {
