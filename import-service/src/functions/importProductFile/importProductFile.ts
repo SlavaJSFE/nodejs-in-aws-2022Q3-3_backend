@@ -14,10 +14,9 @@ export const handler = async (event: APIGatewayProxyEvent) => {
     }, HttpCode.BAD_REQUEST);
   }
 
-  const prefix = 'uploaded/';
   const params = {
     Bucket: process.env.BUCKET,
-    Key: `${prefix}${fileName}`
+    Key: `${process.env.UPLOADED_PREFIX}${fileName}`
   };
   const command = new PutObjectCommand(params);
 

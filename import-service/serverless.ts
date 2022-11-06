@@ -22,7 +22,10 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       REGION: '${env:REGION}',
-      BUCKET: '${env:BUCKET}'
+      BUCKET: '${env:BUCKET}',
+      UPLOADED_PREFIX: '${env:UPLOADED_PREFIX}',
+      PARSED_PREFIX: '${env:PARSED_PREFIX}'
+
     },
     iam: {
       role: {
