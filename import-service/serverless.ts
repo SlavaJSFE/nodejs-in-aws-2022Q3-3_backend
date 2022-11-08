@@ -24,8 +24,9 @@ const serverlessConfiguration: AWS = {
       REGION: '${env:REGION}',
       BUCKET: '${env:BUCKET}',
       UPLOADED_PREFIX: '${env:UPLOADED_PREFIX}',
-      PARSED_PREFIX: '${env:PARSED_PREFIX}'
-
+      PARSED_PREFIX: '${env:PARSED_PREFIX}',
+      SQSQUEUE_URL: '${env:SQSQUEUE_URL}',
+      SQSQUEUE_ARN: '${env:SQSQUEUE_ARN}'
     },
     iam: {
       role: {
@@ -40,11 +41,16 @@ const serverlessConfiguration: AWS = {
             Action: 's3:*',
             Resource: 'arn:aws:s3:::${env:BUCKET}/*'
           },
+          {
+            Effect: 'Allow',
+            Action: 'sqs:*',
+            Resource: '${env:SQSQUEUE_ARN}'
+          }
         ],
+        managedPolicies: ["arn:aws:iam::aws:policy/AmazonSQSFullAccess"]
       },
     },
   },
-  // import the function via paths
   functions: { importProductFile, importFileParser },
   package: { individually: true },
   custom: {

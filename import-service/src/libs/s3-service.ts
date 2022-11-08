@@ -8,7 +8,10 @@ export const processS3Stream = async (stream: Stream) => {
   return new Promise((resolve, reject) => {
     const records = [];
     stream
-      .pipe(csvParser())
+      .pipe(csvParser({
+        headers: ['title', 'description', 'price', 'count'],
+        skipLines: 1,
+      }))
       .on('data', (data) => records.push(data))
       .on('error', reject)
       .on('end', () => resolve(records));
