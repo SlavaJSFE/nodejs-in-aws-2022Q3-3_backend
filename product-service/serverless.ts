@@ -1,4 +1,5 @@
 import type { AWS } from '@serverless/typescript';
+import 'dotenv/config';
 
 import getProductList from '@functions/getProductList';
 import getProductById from '@functions/getProductById';
@@ -27,6 +28,7 @@ const serverlessConfiguration: AWS = {
       SNS_TOPIC_ARN: {
         Ref: 'SNSTopic'
       },
+      AUTHORIZER_ARN: '${env:AUTHORIZER_ARN}',
     },
     iam: {
       role: {

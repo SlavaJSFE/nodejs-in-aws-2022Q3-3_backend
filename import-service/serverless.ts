@@ -26,7 +26,8 @@ const serverlessConfiguration: AWS = {
       UPLOADED_PREFIX: '${env:UPLOADED_PREFIX}',
       PARSED_PREFIX: '${env:PARSED_PREFIX}',
       SQSQUEUE_URL: '${env:SQSQUEUE_URL}',
-      SQSQUEUE_ARN: '${env:SQSQUEUE_ARN}'
+      SQSQUEUE_ARN: '${env:SQSQUEUE_ARN}',
+      AUTHORIZER_ARN: '${env:AUTHORIZER_ARN}',
     },
     iam: {
       role: {

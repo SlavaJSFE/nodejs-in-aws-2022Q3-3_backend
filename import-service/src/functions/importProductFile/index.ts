@@ -15,6 +15,10 @@ export default {
             },
           },
         },
+        authorizer: {
+          arn: process.env.AUTHORIZER_ARN,
+          type: 'request'
+        },
       },
     },
   ],

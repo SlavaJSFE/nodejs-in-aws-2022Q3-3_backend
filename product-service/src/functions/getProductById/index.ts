@@ -15,6 +15,10 @@ export default {
           },
         },
         cors: true,
+        authorizer: {
+          arn: process.env.AUTHORIZER_ARN,
+          type: 'request'
+        },
       },
     },
   ],
